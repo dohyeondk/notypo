@@ -4,19 +4,18 @@ struct CorrectionView: View {
     let segments: [DiffSegment]
 
     var body: some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
             Image(systemName: "text.badge.checkmark")
                 .foregroundStyle(.secondary)
-                .padding(.top, 2)
 
             Text(diffAttributedString)
                 .lineLimit(6)
         }
         .padding(12)
         .fixedSize(horizontal: false, vertical: true)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10))
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 12)
                 .strokeBorder(.quaternary, lineWidth: 0.5)
         )
     }

@@ -30,7 +30,7 @@ final class AppState {
         }
     }
 
-    private func handleHotkey() async {
+    func handleHotkey() async {
         guard !proofreadService.isProcessing else { return }
         guard proofreadService.availability == .available else { return }
         guard let text = await textRewriter.readSelection() else { return }

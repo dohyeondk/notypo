@@ -8,6 +8,7 @@ struct NotypoApp: App {
     var body: some Scene {
         MenuBarExtra {
             MenuContent()
+                .environment(appState)
         } label: {
             Image(systemName: appState.proofreadService.isProcessing ? "eyes" : "eyes.inverse")
         }
