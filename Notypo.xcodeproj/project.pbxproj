@@ -155,10 +155,6 @@
 						CreatedOnToolsVersion = 26.3;
 						TestTargetID = F558462C508C6390BD1CE211;
 					};
-					F558462C508C6390BD1CE211 = {
-						DevelopmentTeam = M48V2XMY2U;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 46109BA0C5FEC606222E8939 /* Build configuration list for PBXProject "Notypo" */;
@@ -233,7 +229,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -245,6 +240,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.cedars.Notypo;
 				PRODUCT_NAME = Notypo;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -320,7 +316,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -332,6 +327,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.cedars.Notypo;
 				PRODUCT_NAME = Notypo;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
