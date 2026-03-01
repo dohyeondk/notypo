@@ -11,7 +11,6 @@ struct MenuContent: View {
 
         Button("Settings…") {
             openWindow(id: WindowID.settings.rawValue)
-            NSApp.show()
         }
         .keyboardShortcut(",", modifiers: .command)
 
