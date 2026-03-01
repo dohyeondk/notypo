@@ -41,3 +41,7 @@ struct CorrectionView: View {
         return result
     }
 }
+
+#Preview {
+    CorrectionView(segments: DiffSegment.wordDiff(original: "Hello, word!", corrected: "Hello, world!"))
+}
