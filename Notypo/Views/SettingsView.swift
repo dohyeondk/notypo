@@ -1,8 +1,23 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(AccessibilityManager.self) private var accessibilityManager
+
     var body: some View {
         Form {
+            Section("Permissions") {
+                LabeledContent("Accessibility") {
+                    if accessibilityManager.isGranted {
+                        Text("Enabled")
+                            .foregroundStyle(.green)
+                    } else {
+                        Button("Grant Access") {
+                            accessibilityManager.requestPermission()
+                        }
+                    }
+                }
+            }
+
             Section("General") {
                 LabeledContent("Version") {
                     Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—")
@@ -10,7 +25,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 360, height: 120)
+        .frame(width: 360, height: 200)
         .onAppear {
             NSApp.show()
         }

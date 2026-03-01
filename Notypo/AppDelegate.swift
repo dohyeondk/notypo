@@ -5,7 +5,21 @@ import Observation
 @Observable
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
+    let accessibilityManager = AccessibilityManager()
+    private let textRewriter = TextRewriter()
+    private var hotkeyMonitor: HotkeyMonitor?
+
     func applicationDidFinishLaunching(_ notification: Notification) {
-        print("[Notypo] App launched")
+        hotkeyMonitor = HotkeyMonitor {
+            guard let text = await self.textRewriter.readSelection() else { return }
+            print("[Notypo] Selected: \(text)")
+            await self.textRewriter.replaceSelection(with: "test")
+        }
+
+        accessibilityManager.startMonitoring()
+    }
+
+    var needsOnboarding: Bool {
+        !accessibilityManager.isGranted
     }
 }

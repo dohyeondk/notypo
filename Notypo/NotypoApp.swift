@@ -14,7 +14,9 @@ struct NotypoApp: App {
 
         Window("Settings", id: WindowID.settings.rawValue) {
             SettingsView()
+                .environment(appDelegate.accessibilityManager)
         }
+        .defaultLaunchBehavior(appDelegate.needsOnboarding ? .presented : .suppressed)
         .windowResizability(.contentSize)
         .windowStyle(.titleBar)
     }
