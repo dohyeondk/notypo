@@ -68,7 +68,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 360, height: 280)
+        .frame(width: 480, height: 360)
         .onAppear {
             NSApp.show()
         }
@@ -76,4 +76,11 @@ struct SettingsView: View {
             NSApp.hide()
         }
     }
+}
+
+#Preview {
+    SettingsView()
+        .environment(AccessibilityManager.shared)
+        .environment(ProofreadService.shared)
+        .environment(CorrectionPresenter.shared)
 }
