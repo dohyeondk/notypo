@@ -1,18 +1,24 @@
 name: Notypo
 options:
-  bundleIdPrefix: com.notypo
+  bundleIdPrefix: dev.cedars
   deploymentTarget:
     macOS: "26.0"
   xcodeVersion: "26.0"
 settings:
   SWIFT_VERSION: "6.0"
   MACOSX_DEPLOYMENT_TARGET: "26.0"
+packages:
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: "2.0.0"
 targets:
   Notypo:
     type: application
     platform: macOS
     sources:
       - Notypo
+    dependencies:
+      - package: KeyboardShortcuts
     settings:
       INFOPLIST_FILE: Notypo/Info.plist
       PRODUCT_BUNDLE_IDENTIFIER: dev.cedars.Notypo

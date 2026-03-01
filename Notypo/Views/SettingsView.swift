@@ -1,3 +1,4 @@
+import KeyboardShortcuts
 import SwiftUI
 
 struct SettingsView: View {
@@ -21,6 +22,10 @@ struct SettingsView: View {
                 }
             }
 
+            Section("Shortcut") {
+                KeyboardShortcuts.Recorder("Proofread:", name: .proofread)
+            }
+
             Section("Proofreading") {
                 LabeledContent("Model") {
                     switch proofreadService.availability {
@@ -39,9 +44,6 @@ struct SettingsView: View {
                             .foregroundStyle(.secondary)
                     case .unavailable:
                         Text("Model unavailable")
-                            .foregroundStyle(.secondary)
-                    case nil:
-                        Text("Checking…")
                             .foregroundStyle(.secondary)
                     }
                 }

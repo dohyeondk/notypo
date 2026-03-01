@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1499CDEA0091A57E4228FABD /* NotypoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9BAA0FC65983E0F6BD0C3A /* NotypoApp.swift */; };
-		6EB5B599ABBAB5F23FFA1689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A643FC1471FF483ED253C8 /* AppDelegate.swift */; };
 		CAF254633257D0064171C3F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFEA6A0F09A7CEB0B0623393 /* Assets.xcassets */; };
+		CDC286222F5400A100C897FF /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = CDC286212F5400A100C897FF /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		92A643FC1471FF483ED253C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFEA6A0F09A7CEB0B0623393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4075095755E7ED7ECC2EA67 /* Notypo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notypo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD9BAA0FC65983E0F6BD0C3A /* NotypoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotypoApp.swift; sourceTree = "<group>"; };
@@ -25,6 +24,17 @@
 		CDC2861B2F53F8CC00C897FF /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		CDC2861E2F53F9DE00C897FF /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CDC286232F5400A100C897FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDC286222F5400A100C897FF /* KeyboardShortcuts in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		653499A348C620D4FE9C90D2 /* Products */ = {
@@ -41,7 +51,6 @@
 				CDC2861E2F53F9DE00C897FF /* Model */,
 				CDC2861B2F53F8CC00C897FF /* Views */,
 				CDC286192F53F87300C897FF /* Extensions */,
-				92A643FC1471FF483ED253C8 /* AppDelegate.swift */,
 				AFEA6A0F09A7CEB0B0623393 /* Assets.xcassets */,
 				E4FD7AE529B700241B565260 /* Info.plist */,
 				DD9BAA0FC65983E0F6BD0C3A /* NotypoApp.swift */,
@@ -65,6 +74,7 @@
 			buildConfigurationList = 7D7FF4081B21CB85711B45C4 /* Build configuration list for PBXNativeTarget "Notypo" */;
 			buildPhases = (
 				637ECD1FE0CD2C1C3B82C47F /* Sources */,
+				CDC286232F5400A100C897FF /* Frameworks */,
 				5E0AD9E3AF5BBBFC65F5E5AE /* Resources */,
 			);
 			buildRules = (
@@ -78,6 +88,7 @@
 			);
 			name = Notypo;
 			packageProductDependencies = (
+				CDC286212F5400A100C897FF /* KeyboardShortcuts */,
 			);
 			productName = Notypo;
 			productReference = C4075095755E7ED7ECC2EA67 /* Notypo.app */;
@@ -108,6 +119,9 @@
 			);
 			mainGroup = B1EFD8BA77047F363DAE63AD;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CDC286202F5400A100C897FF /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -132,7 +146,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EB5B599ABBAB5F23FFA1689 /* AppDelegate.swift in Sources */,
 				1499CDEA0091A57E4228FABD /* NotypoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,6 +334,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CDC286202F5400A100C897FF /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CDC286212F5400A100C897FF /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDC286202F5400A100C897FF /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B33FE6B5EB7832E02A6B33E6 /* Project object */;
 }

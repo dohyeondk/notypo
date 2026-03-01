@@ -3,7 +3,7 @@ import SwiftUI
 @main
 struct NotypoApp: App {
 
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @State private var appState = AppState()
 
     var body: some Scene {
         MenuBarExtra {
@@ -14,10 +14,10 @@ struct NotypoApp: App {
 
         Window("Settings", id: WindowID.settings.rawValue) {
             SettingsView()
-                .environment(appDelegate.accessibilityManager)
-                .environment(appDelegate.proofreadService)
+                .environment(appState.accessibilityManager)
+                .environment(appState.proofreadService)
         }
-        .defaultLaunchBehavior(appDelegate.needsOnboarding ? .presented : .suppressed)
+        .defaultLaunchBehavior(appState.needsOnboarding ? .presented : .suppressed)
         .windowResizability(.contentSize)
         .windowStyle(.titleBar)
     }

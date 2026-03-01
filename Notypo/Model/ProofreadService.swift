@@ -7,7 +7,7 @@ import Observation
 @Observable
 final class ProofreadService {
 
-    var availability: SystemLanguageModel.Availability?
+    var availability: SystemLanguageModel.Availability = SystemLanguageModel.default.availability
     var isProcessing: Bool = false
 
     private static let toneGuideKey = "toneGuide"
@@ -23,14 +23,10 @@ final class ProofreadService {
     func startMonitoring() {
         pollingTask = Task {
             while !Task.isCancelled {
-                checkAvailability()
+                availability = SystemLanguageModel.default.availability
                 try? await Task.sleep(for: .seconds(2))
             }
         }
-    }
-
-    private func checkAvailability() {
-        availability = SystemLanguageModel.default.availability
     }
 
     func openAppleIntelligenceSettings() {

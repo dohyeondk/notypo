@@ -1,22 +1,33 @@
-import AppKit
+import KeyboardShortcuts
 import Observation
 
 @MainActor
 @Observable
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppState {
 
     let accessibilityManager = AccessibilityManager()
     let proofreadService = ProofreadService()
+
     private let textRewriter = TextRewriter()
-    private var hotkeyMonitor: HotkeyMonitor?
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        hotkeyMonitor = HotkeyMonitor { [self] in
-            await handleHotkey()
-        }
+    var needsOnboarding: Bool {
+        !accessibilityManager.isGranted || proofreadService.availability != .available
+    }
 
+    init() {
+        start()
+    }
+
+    private func start() {
         accessibilityManager.startMonitoring()
         proofreadService.startMonitoring()
+
+        KeyboardShortcuts.onKeyDown(for: .proofread) { [weak self] in
+            guard let self else { return }
+            Task { @MainActor in
+                await self.handleHotkey()
+            }
+        }
     }
 
     private func handleHotkey() async {
@@ -34,9 +45,5 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             print("[Notypo] Proofread error: \(error)")
         }
-    }
-
-    var needsOnboarding: Bool {
-        !accessibilityManager.isGranted
     }
 }
