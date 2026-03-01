@@ -15,6 +15,7 @@ struct NotypoApp: App {
         Window("Settings", id: WindowID.settings.rawValue) {
             SettingsView()
                 .environment(appDelegate.accessibilityManager)
+                .environment(appDelegate.proofreadService)
         }
         .defaultLaunchBehavior(appDelegate.needsOnboarding ? .presented : .suppressed)
         .windowResizability(.contentSize)
