@@ -42,6 +42,7 @@ final class AppState {
             let corrected = try await proofreadService.proofread(text)
             guard corrected != text else { return }
             await textRewriter.replaceSelection(with: corrected)
+            CorrectionPresenter.shared.show(before: text, after: corrected)
         } catch {
             print("[Notypo] Proofread error: \(error)")
         }

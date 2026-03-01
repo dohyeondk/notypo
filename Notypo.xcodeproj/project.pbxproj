@@ -12,9 +12,20 @@
 		CDC286222F5400A100C897FF /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = CDC286212F5400A100C897FF /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CDC287052F54229500C897FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B33FE6B5EB7832E02A6B33E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F558462C508C6390BD1CE211;
+			remoteInfo = Notypo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		AFEA6A0F09A7CEB0B0623393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4075095755E7ED7ECC2EA67 /* Notypo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notypo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDC287012F54229500C897FF /* NotypoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotypoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD9BAA0FC65983E0F6BD0C3A /* NotypoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotypoApp.swift; sourceTree = "<group>"; };
 		E4FD7AE529B700241B565260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -23,6 +34,8 @@
 		CDC286192F53F87300C897FF /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		CDC2861B2F53F8CC00C897FF /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		CDC2861E2F53F9DE00C897FF /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
+		CDC286EE2F54219000C897FF /* Controllers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Controllers; sourceTree = "<group>"; };
+		CDC287022F54229500C897FF /* NotypoTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NotypoTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +47,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDC286FE2F54229500C897FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -41,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				C4075095755E7ED7ECC2EA67 /* Notypo.app */,
+				CDC287012F54229500C897FF /* NotypoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +69,7 @@
 		A17A6BE8D17B1F6D94750CAB /* Notypo */ = {
 			isa = PBXGroup;
 			children = (
+				CDC286EE2F54219000C897FF /* Controllers */,
 				CDC2861E2F53F9DE00C897FF /* Model */,
 				CDC2861B2F53F8CC00C897FF /* Views */,
 				CDC286192F53F87300C897FF /* Extensions */,
@@ -62,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				A17A6BE8D17B1F6D94750CAB /* Notypo */,
+				CDC287022F54229500C897FF /* NotypoTests */,
 				653499A348C620D4FE9C90D2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,6 +92,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		CDC287002F54229500C897FF /* NotypoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDC287072F54229500C897FF /* Build configuration list for PBXNativeTarget "NotypoTests" */;
+			buildPhases = (
+				CDC286FD2F54229500C897FF /* Sources */,
+				CDC286FE2F54229500C897FF /* Frameworks */,
+				CDC286FF2F54229500C897FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CDC287062F54229500C897FF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CDC287022F54229500C897FF /* NotypoTests */,
+			);
+			name = NotypoTests;
+			packageProductDependencies = (
+			);
+			productName = NotypoTests;
+			productReference = CDC287012F54229500C897FF /* NotypoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F558462C508C6390BD1CE211 /* Notypo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7D7FF4081B21CB85711B45C4 /* Build configuration list for PBXNativeTarget "Notypo" */;
@@ -85,6 +131,7 @@
 				CDC286192F53F87300C897FF /* Extensions */,
 				CDC2861B2F53F8CC00C897FF /* Views */,
 				CDC2861E2F53F9DE00C897FF /* Model */,
+				CDC286EE2F54219000C897FF /* Controllers */,
 			);
 			name = Notypo;
 			packageProductDependencies = (
@@ -101,8 +148,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					CDC287002F54229500C897FF = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = F558462C508C6390BD1CE211;
+					};
 					F558462C508C6390BD1CE211 = {
 						DevelopmentTeam = M48V2XMY2U;
 						ProvisioningStyle = Automatic;
@@ -126,6 +178,7 @@
 			projectRoot = "";
 			targets = (
 				F558462C508C6390BD1CE211 /* Notypo */,
+				CDC287002F54229500C897FF /* NotypoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -136,6 +189,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAF254633257D0064171C3F8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CDC286FF2F54229500C897FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +210,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDC286FD2F54229500C897FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CDC287062F54229500C897FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F558462C508C6390BD1CE211 /* Notypo */;
+			targetProxy = CDC287052F54229500C897FF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0A8CBC820C8230476C192F5D /* Debug */ = {
@@ -312,6 +387,63 @@
 			};
 			name = Release;
 		};
+		CDC287082F54229500C897FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M48V2XMY2U;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cedars.NotypoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Notypo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Notypo";
+			};
+			name = Debug;
+		};
+		CDC287092F54229500C897FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M48V2XMY2U;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.cedars.NotypoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Notypo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Notypo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -329,6 +461,15 @@
 			buildConfigurations = (
 				0A8CBC820C8230476C192F5D /* Debug */,
 				5A90E1F9E63FACD570E00D6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CDC287072F54229500C897FF /* Build configuration list for PBXNativeTarget "NotypoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDC287082F54229500C897FF /* Debug */,
+				CDC287092F54229500C897FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
