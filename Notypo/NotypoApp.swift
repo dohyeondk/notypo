@@ -9,7 +9,7 @@ struct NotypoApp: App {
         MenuBarExtra {
             MenuContent()
         } label: {
-            Image(systemName: "eyes.inverse")
+            Image(systemName: appState.proofreadService.isProcessing ? "eyes" : "eyes.inverse")
         }
 
         Window("Settings", id: WindowID.settings.rawValue) {
