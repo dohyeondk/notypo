@@ -1,17 +1,20 @@
 import AppKit
+import Observation
 import SwiftUI
 
 @MainActor
+@Observable
 final class CorrectionPresenter {
 
     static let shared = CorrectionPresenter()
 
-    static let dismissDurationKey = "correctionDismissDuration"
-    static let dismissDurationDefault: Double = 3
+    private static let dismissDurationKey = "correctionDismissDuration"
 
-    static var dismissDuration: TimeInterval {
+    var dismissDuration: Double = {
         let value = UserDefaults.standard.double(forKey: dismissDurationKey)
-        return value > 0 ? value : dismissDurationDefault
+        return value > 0 ? value : 5
+    }() {
+        didSet { UserDefaults.standard.set(dismissDuration, forKey: Self.dismissDurationKey) }
     }
 
     private let gap: CGFloat = 16
@@ -106,7 +109,7 @@ final class CorrectionPresenter {
 
     private func scheduleDismiss() {
         dismissTask = Task {
-            try? await Task.sleep(for: .seconds(Self.dismissDuration))
+            try? await Task.sleep(for: .seconds(self.dismissDuration))
             dismiss()
         }
         keyMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] _ in
