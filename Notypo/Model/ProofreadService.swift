@@ -30,7 +30,9 @@ final class ProofreadService {
     }
 
     func openAppleIntelligenceSettings() {
-        NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.AppleIntelligence-Settings")!)
+        if let url = URL(string: "x-apple.systempreferences:com.apple.Siri-Settings.extension") {
+            NSWorkspace.shared.open(url)
+        }
     }
 
     func proofread(_ text: String) async throws -> String {
