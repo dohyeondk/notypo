@@ -3,6 +3,8 @@ import AppKit
 @MainActor
 final class TextRewriter {
 
+    static let shared = TextRewriter()
+
     private let pasteboard = NSPasteboard.general
     private let delay: UInt64 = 100_000_000 // 100ms in nanoseconds
 

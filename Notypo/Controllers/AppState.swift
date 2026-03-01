@@ -5,13 +5,8 @@ import Observation
 @Observable
 final class AppState {
 
-    let accessibilityManager = AccessibilityManager()
-    let proofreadService = ProofreadService()
-
-    private let textRewriter = TextRewriter()
-
     var needsOnboarding: Bool {
-        !accessibilityManager.isGranted || proofreadService.availability != .available
+        !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
     }
 
     init() {
@@ -19,21 +14,20 @@ final class AppState {
     }
 
     private func start() {
-        accessibilityManager.startMonitoring()
-        proofreadService.startMonitoring()
+        AccessibilityManager.shared.startMonitoring()
+        ProofreadService.shared.startMonitoring()
 
         KeyboardShortcuts.onKeyDown(for: .proofread) { [weak self] in
             guard let self else { return }
-            Task { @MainActor in
-                await self.handleHotkey()
-            }
+            Task { @MainActor in await self.handleHotkey() }
         }
     }
 
     func handleHotkey() async {
+        let proofreadService = ProofreadService.shared
         guard !proofreadService.isProcessing else { return }
         guard proofreadService.availability == .available else { return }
-        guard let text = await textRewriter.readSelection() else { return }
+        guard let text = await TextRewriter.shared.readSelection() else { return }
 
         proofreadService.isProcessing = true
         defer { proofreadService.isProcessing = false }
@@ -41,7 +35,7 @@ final class AppState {
         do {
             let corrected = try await proofreadService.proofread(text)
             guard corrected != text else { return }
-            await textRewriter.replaceSelection(with: corrected)
+            await TextRewriter.shared.replaceSelection(with: corrected)
             CorrectionPresenter.shared.show(before: text, after: corrected)
         } catch {
             print("[Notypo] Proofread error: \(error)")

@@ -7,6 +7,8 @@ import Observation
 @Observable
 final class ProofreadService {
 
+    static let shared = ProofreadService()
+
     var availability: SystemLanguageModel.Availability = SystemLanguageModel.default.availability
     var isProcessing: Bool = false
 

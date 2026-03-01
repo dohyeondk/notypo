@@ -5,6 +5,8 @@ import Observation
 @Observable
 final class AccessibilityManager {
 
+    static let shared = AccessibilityManager()
+
     static let permissionDidChange = Notification.Name("AccessibilityPermissionDidChange")
 
     private(set) var isGranted: Bool = AXIsProcessTrusted() {
