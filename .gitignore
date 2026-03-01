@@ -22,3 +22,5 @@ playground.xcworkspace
 # User-specific Xcode files
 *.xcuserstate
 *.xcuserdatad/
+
+archived/

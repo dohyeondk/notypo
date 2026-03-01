@@ -11,5 +11,11 @@ struct SettingsView: View {
         }
         .formStyle(.grouped)
         .frame(width: 360, height: 120)
+        .onAppear {
+            NSApp.show()
+        }
+        .onDisappear {
+            NSApp.hide()
+        }
     }
 }

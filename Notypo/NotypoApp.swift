@@ -14,12 +14,6 @@ struct NotypoApp: App {
 
         Window("Settings", id: WindowID.settings.rawValue) {
             SettingsView()
-                .onAppear {
-                    NSApp.show()
-                }
-                .onDisappear {
-                    NSApp.hide()
-                }
         }
         .windowResizability(.contentSize)
         .windowStyle(.titleBar)
