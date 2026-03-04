@@ -8,16 +8,20 @@ class ProofreadSession {
 
     enum Phase: Equatable {
         case processing
-        case result(corrected: String)
+        case succeeded(corrected: String)
+        case failed
     }
 
     let originalText: String
     var phase: Phase = .processing
 
     var isProcessing: Bool { phase == .processing }
+    var isPerfect: Bool {
+        if case .succeeded(let corrected) = phase { corrected == originalText } else { false }
+    }
 
     var attributedText: AttributedString {
-        let corrected = if case .result(let corrected) = phase { corrected } else { originalText }
+        let corrected = if case .succeeded(let corrected) = phase { corrected } else { originalText }
         let segments = DiffSegment.wordDiff(original: originalText, corrected: corrected)
         return DiffSegment.attributedString(from: segments)
     }
@@ -39,10 +43,9 @@ class ProofreadSession {
             let corrected = try await Task.detached {
                 try await Self.proofread(text, toneGuide: toneGuide)
             }.value
-            phase = .result(corrected: corrected)
+            phase = .succeeded(corrected: corrected)
         } catch {
-            print("[Notypo] Proofread error: \(error)")
-            onDiscard?()
+            phase = .failed
         }
     }
 
@@ -51,6 +54,7 @@ class ProofreadSession {
             You are a proofreading assistant. \
             Fix typos, spelling errors, and grammar mistakes in the user's text. \
             Preserve the original tone, formatting, capitalization style, and punctuation style. \
+            Preserve all leading and trailing whitespace, newlines, and indentation exactly as given. \
             Do NOT add explanations, comments, or quotation marks. \
             Return ONLY the corrected text.
             """

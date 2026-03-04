@@ -37,7 +37,7 @@ struct ProofreadPanel: View {
 
     private var applyButton: some View {
         Button {
-            if case .result(let corrected) = session.phase {
+            if case .succeeded(let corrected) = session.phase {
                 session.onApply?(corrected)
             }
         } label: {
@@ -71,6 +71,7 @@ struct ProofreadPanel: View {
                 .padding(12)
                 .background(.regularMaterial)
         }
+        .background(session.isPerfect ? .green.opacity(0.3) : .clear)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
