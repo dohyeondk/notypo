@@ -53,11 +53,11 @@ enum DiffSegment: Equatable {
             case .deleted(let word):
                 var attr = AttributedString(word + " ")
                 attr.strikethroughStyle = .single
-                attr.foregroundColor = .red
+                attr.foregroundColor = .pink
                 result.append(attr)
             case .added(let word):
                 var attr = AttributedString(word + " ")
-                attr.foregroundColor = .green
+                attr.foregroundColor = .mint
                 result.append(attr)
             }
         }
