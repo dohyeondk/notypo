@@ -89,7 +89,8 @@ struct ProofreadView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(session.attributedText)
-                .font(.title3)
+                .font(.title2)
+                .lineLimit(20)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(12)
 
@@ -104,6 +105,7 @@ struct ProofreadView: View {
             RoundedRectangle(cornerRadius: 12)
                 .strokeBorder(.quaternary, lineWidth: 1)
         )
+        .animation(.interactiveSpring, value: session.isProcessing)
         .frame(width: 520)
         .task {
             try? await Task.sleep(for: .seconds(0.5))
