@@ -105,7 +105,6 @@ struct ProofreadView: View {
             RoundedRectangle(cornerRadius: 12)
                 .strokeBorder(.quaternary, lineWidth: 1)
         )
-        .animation(.interactiveSpring, value: session.isProcessing)
         .frame(width: 520)
         .task {
             try? await Task.sleep(for: .seconds(0.5))
