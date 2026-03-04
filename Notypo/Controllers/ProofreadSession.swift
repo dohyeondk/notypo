@@ -7,15 +7,18 @@ import SwiftUI
 class ProofreadSession {
 
     enum Phase: Equatable {
+        case ready
         case processing
         case succeeded(corrected: String)
         case failed
     }
 
     let originalText: String
-    var phase: Phase = .processing
+    
+    var phase: Phase = .ready
 
-    var isProcessing: Bool { phase == .processing }
+    var isProcessing: Bool { phase == .ready || phase == .processing }
+    
     var isPerfect: Bool {
         if case .succeeded(let corrected) = phase { corrected == originalText } else { false }
     }
@@ -34,6 +37,10 @@ class ProofreadSession {
     }
 
     func run() async {
+        guard phase != .processing else {
+            return
+        }
+        
         phase = .processing
 
         let text = originalText
@@ -64,7 +71,16 @@ class ProofreadSession {
         }
 
         let session = LanguageModelSession { systemPrompt }
-        let response = try await session.respond(to: text)
-        return response.content
+        let draft = try await session.respond(to: text)
+
+        let validated = try await session.respond(to: """
+            The following is your previous response. It may contain extra text \
+            like "Here is the corrected text:" or other commentary. \
+            Return ONLY the corrected text with absolutely nothing else. \
+            No prefixes, no labels, no explanations.
+
+            \(draft.content)
+            """)
+        return validated.content
     }
 }
