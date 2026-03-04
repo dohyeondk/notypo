@@ -4,6 +4,7 @@ import SwiftUI
 struct ProofreadView: View {
 
     @Bindable var session: ProofreadSession
+    @State private var showCopied = false
 
     private var retryButton: some View {
         Button {
@@ -38,9 +39,17 @@ struct ProofreadView: View {
             if case .succeeded(let corrected) = session.phase {
                 NSPasteboard.general.clearContents()
                 NSPasteboard.general.setString(corrected, forType: .string)
+                showCopied = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    showCopied = false
+                }
             }
         } label: {
-            Label("Copy", systemImage: "doc.on.doc")
+            Label(
+                "Copy",
+                systemImage: showCopied ? "checkmark" : "doc.on.doc"
+            )
+            .contentTransition(.symbolEffect(.replace))
         }
         .keyboardShortcut("c", modifiers: .command)
     }
@@ -59,18 +68,19 @@ struct ProofreadView: View {
 
     private var toolbar: some View {
         HStack(spacing: 20) {
-            ZStack(alignment: .trailing) {
-                discardButton
-                    .opacity(session.isProcessing ? 0 : 1)
-                
-                if session.isProcessing { processingLabel }
-            }
-            
+            discardButton
+                .opacity(session.isProcessing ? 0 : 1)
+
+            retryButton
+                .opacity(session.isProcessing ? 0 : 1)
+
             Spacer()
             
-            retryButton
             copyButton
             applyButton
+        }
+        .overlay(alignment: .leading) {
+            if session.isProcessing { processingLabel }
         }
         .disabled(session.isProcessing)
         .buttonStyle(.plain)
