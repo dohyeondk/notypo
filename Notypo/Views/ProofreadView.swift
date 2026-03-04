@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-struct ProofreadPanel: View {
+struct ProofreadView: View {
 
     @Bindable var session: ProofreadSession
 
@@ -12,8 +12,6 @@ struct ProofreadPanel: View {
             Label("Retry", systemImage: "arrow.clockwise")
         }
         .keyboardShortcut("r", modifiers: .command)
-        .buttonStyle(.glass)
-        .opacity(session.isProcessing ? 0 : 1)
     }
 
     private var processingLabel: some View {
@@ -33,7 +31,6 @@ struct ProofreadPanel: View {
             Label("Discard", systemImage: "escape")
         }
         .keyboardShortcut(.escape, modifiers: [])
-        .buttonStyle(.glass)
     }
 
     private var copyButton: some View {
@@ -46,8 +43,6 @@ struct ProofreadPanel: View {
             Label("Copy", systemImage: "doc.on.doc")
         }
         .keyboardShortcut("c", modifiers: .command)
-        .buttonStyle(.glass)
-        .disabled(session.isProcessing)
     }
 
     private var applyButton: some View {
@@ -60,20 +55,25 @@ struct ProofreadPanel: View {
         }
         .keyboardShortcut(.return, modifiers: [])
         .buttonStyle(.glassProminent)
-        .disabled(session.isProcessing)
     }
 
     private var toolbar: some View {
-        HStack {
-            ZStack(alignment: .leading) {
-                retryButton
+        HStack(spacing: 20) {
+            ZStack(alignment: .trailing) {
+                discardButton
+                    .opacity(session.isProcessing ? 0 : 1)
+                
                 if session.isProcessing { processingLabel }
             }
+            
             Spacer()
-            discardButton
+            
+            retryButton
             copyButton
             applyButton
         }
+        .disabled(session.isProcessing)
+        .buttonStyle(.plain)
     }
 
     var body: some View {
@@ -104,5 +104,5 @@ struct ProofreadPanel: View {
 
 #Preview {
     let session = ProofreadSession(originalText: "Id nostrud voluptate voluptate. Voluptate aliqua eiusmod dolor minim ut. Velit tempor incididunt ea esse incididunt incididunt cillum id commodo duis et.")
-    ProofreadPanel(session: session)
+    ProofreadView(session: session)
 }

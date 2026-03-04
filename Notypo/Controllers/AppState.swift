@@ -17,7 +17,7 @@ final class AppState {
         didSet {
             panel?.hide()
             if let currentSession {
-                let newPanel = FloatingPanel(ProofreadPanel(session: currentSession))
+                let newPanel = FloatingPanel(ProofreadView(session: currentSession))
                 newPanel.show()
                 panel = newPanel
             } else {
