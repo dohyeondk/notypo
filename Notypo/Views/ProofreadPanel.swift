@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct ProofreadPanel: View {
@@ -35,6 +36,20 @@ struct ProofreadPanel: View {
         .buttonStyle(.glass)
     }
 
+    private var copyButton: some View {
+        Button {
+            if case .succeeded(let corrected) = session.phase {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(corrected, forType: .string)
+            }
+        } label: {
+            Label("Copy", systemImage: "doc.on.doc")
+        }
+        .keyboardShortcut("c", modifiers: .command)
+        .buttonStyle(.glass)
+        .disabled(session.isProcessing)
+    }
+
     private var applyButton: some View {
         Button {
             if case .succeeded(let corrected) = session.phase {
@@ -56,6 +71,7 @@ struct ProofreadPanel: View {
             }
             Spacer()
             discardButton
+            copyButton
             applyButton
         }
     }
