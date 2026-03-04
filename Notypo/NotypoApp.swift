@@ -10,14 +10,13 @@ struct NotypoApp: App {
             MenuContent()
                 .environment(appState)
         } label: {
-            Image(systemName: ProofreadService.shared.isProcessing ? "eyes" : "eyes.inverse")
+            Image(systemName: appState.isRunning ? "eyes" : "eyes.inverse")
         }
 
         Window("Settings", id: WindowID.settings.rawValue) {
             SettingsView()
                 .environment(AccessibilityManager.shared)
                 .environment(ProofreadService.shared)
-                .environment(CorrectionPresenter.shared)
         }
         .defaultLaunchBehavior(appState.needsOnboarding ? .presented : .suppressed)
         .windowResizability(.contentSize)

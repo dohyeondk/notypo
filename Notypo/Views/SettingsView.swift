@@ -4,11 +4,9 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(AccessibilityManager.self) private var accessibilityManager
     @Environment(ProofreadService.self) private var proofreadService
-    @Environment(CorrectionPresenter.self) private var correctionPresenter
-
+    
     var body: some View {
         @Bindable var proofreadService = proofreadService
-        @Bindable var correctionPresenter = correctionPresenter
 
         Form {
             Section("Permissions") {
@@ -55,12 +53,6 @@ struct SettingsView: View {
                 }
             }
 
-            Section("Correction Panel") {
-                LabeledContent("Dismiss After") {
-                    Stepper("\(correctionPresenter.dismissDuration, specifier: "%.0f")s", value: $correctionPresenter.dismissDuration, in: 1...60, step: 1)
-                }
-            }
-
             Section("General") {
                 LabeledContent("Version") {
                     Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—")
@@ -82,5 +74,4 @@ struct SettingsView: View {
     SettingsView()
         .environment(AccessibilityManager.shared)
         .environment(ProofreadService.shared)
-        .environment(CorrectionPresenter.shared)
 }

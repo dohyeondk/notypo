@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum DiffSegment: Equatable {
     case unchanged(String)
@@ -41,5 +42,25 @@ enum DiffSegment: Equatable {
         }
 
         return segments.reversed()
+    }
+
+    static func attributedString(from segments: [DiffSegment]) -> AttributedString {
+        var result = AttributedString()
+        for segment in segments {
+            switch segment {
+            case .unchanged(let word):
+                result.append(AttributedString(word + " "))
+            case .deleted(let word):
+                var attr = AttributedString(word + " ")
+                attr.strikethroughStyle = .single
+                attr.foregroundColor = .red
+                result.append(attr)
+            case .added(let word):
+                var attr = AttributedString(word + " ")
+                attr.foregroundColor = .green
+                result.append(attr)
+            }
+        }
+        return result
     }
 }

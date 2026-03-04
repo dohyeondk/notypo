@@ -1,5 +1,7 @@
+import AppKit
 import KeyboardShortcuts
 import Observation
+import SwiftUI
 
 @MainActor
 @Observable
@@ -7,6 +9,25 @@ final class AppState {
 
     var needsOnboarding: Bool {
         !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
+    }
+
+    private var panel: FloatingPanel?
+
+    private var currentSession: ProofreadSession? {
+        didSet {
+            panel?.hide()
+            if let currentSession {
+                let newPanel = FloatingPanel(ProofreadPanel(session: currentSession))
+                newPanel.show()
+                panel = newPanel
+            } else {
+                panel = nil
+            }
+        }
+    }
+    
+    var isRunning: Bool {
+        currentSession?.isProcessing == true
     }
 
     init() {
@@ -24,21 +45,21 @@ final class AppState {
     }
 
     func handleHotkey() async {
-        let proofreadService = ProofreadService.shared
-        guard !proofreadService.isProcessing else { return }
-        guard proofreadService.availability == .available else { return }
+        guard ProofreadService.shared.availability == .available else { return }
         guard let text = await TextRewriter.shared.readSelection() else { return }
 
-        proofreadService.isProcessing = true
-        defer { proofreadService.isProcessing = false }
+        let session = ProofreadSession(originalText: text)
+        currentSession = session
 
-        do {
-            let corrected = try await proofreadService.proofread(text)
-            guard corrected != text else { return }
-            await TextRewriter.shared.replaceSelection(with: corrected)
-            CorrectionPresenter.shared.show(before: text, after: corrected)
-        } catch {
-            print("[Notypo] Proofread error: \(error)")
+        session.onDiscard = { [weak self] in
+            self?.currentSession = nil
+        }
+
+        session.onApply = { [weak self] corrected in
+            self?.currentSession = nil
+            Task { @MainActor in
+                await TextRewriter.shared.replaceSelection(with: corrected)
+            }
         }
     }
 }
