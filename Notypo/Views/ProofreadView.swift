@@ -6,6 +6,12 @@ struct ProofreadView: View {
     @Bindable var session: ProofreadSession
     @State private var showCopied = false
 
+    private var tintColor: Color {
+        if session.phase == .failed { return .red.opacity(0.3) }
+        if session.isPerfect { return .green.opacity(0.3) }
+        return .clear
+    }
+
     private var retryButton: some View {
         Button {
             Task { await session.run() }
@@ -75,9 +81,11 @@ struct ProofreadView: View {
                 .opacity(session.isProcessing ? 0 : 1)
 
             Spacer()
-            
+
             copyButton
+                .disabled(session.phase == .failed)
             applyButton
+                .disabled(session.phase == .failed)
         }
         .overlay(alignment: .leading) {
             if session.isProcessing { processingLabel }
@@ -98,7 +106,7 @@ struct ProofreadView: View {
                 .padding(12)
                 .background(.regularMaterial)
         }
-        .background(session.isPerfect ? .green.opacity(0.3) : .clear)
+        .background(tintColor)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
