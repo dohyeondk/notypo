@@ -3,18 +3,16 @@ import SwiftUI
 
 struct MenuContent: View {
     @Environment(AppState.self) private var appState
-    @Environment(\.openWindow) private var openWindow
-
     var body: some View {
         Button("Proofread") {
             Task { await appState.handleHotkey() }
         }
-        .globalKeyboardShortcut(.proofread)
+        .globalKeyboardShortcut(.hotkey)
 
         Divider()
 
-        Button("Settings…") {
-            openWindow(id: WindowID.settings.rawValue)
+        SettingsLink {
+            Text("Settings…")
         }
         .keyboardShortcut(",", modifiers: .command)
 

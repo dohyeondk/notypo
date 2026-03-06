@@ -13,14 +13,11 @@ struct NotypoApp: App {
             Image(systemName: appState.isRunning ? "eyes" : "eyes.inverse")
         }
 
-        Window("Settings", id: WindowID.settings.rawValue) {
+        Settings {
             SettingsView()
                 .environment(AccessibilityManager.shared)
                 .environment(LaunchManager.shared)
                 .environment(ProofreadService.shared)
         }
-        .defaultLaunchBehavior(.suppressed)
-        .windowResizability(.contentSize)
-        .windowStyle(.titleBar)
     }
 }

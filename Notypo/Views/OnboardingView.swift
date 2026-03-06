@@ -235,7 +235,7 @@ struct OnboardingView: View {
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: 360)
 
-            KeyboardShortcuts.Recorder("", name: .proofread)
+            KeyboardShortcuts.Recorder("", name: .hotkey)
                 .padding(.top, 8)
         }
     }

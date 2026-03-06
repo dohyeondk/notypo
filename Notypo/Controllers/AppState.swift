@@ -42,7 +42,7 @@ final class AppState {
         AccessibilityManager.shared.startMonitoring()
         ProofreadService.shared.startMonitoring()
 
-        KeyboardShortcuts.onKeyDown(for: .proofread) { [weak self] in
+        KeyboardShortcuts.onKeyDown(for: .hotkey) { [weak self] in
             guard let self else { return }
             Task { @MainActor in await self.handleHotkey() }
         }
