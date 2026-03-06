@@ -2,12 +2,11 @@ import AppKit
 
 extension NSApplication {
     func show() {
-        setActivationPolicy(.accessory)
+        setActivationPolicy(.regular)
         activate(ignoringOtherApps: true)
     }
 
     func hide() {
-        hide(self)
-        setActivationPolicy(.prohibited)
+        setActivationPolicy(.accessory)
     }
 }
