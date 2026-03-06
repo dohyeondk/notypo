@@ -19,6 +19,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # ── Xcode ──
+      - name: Select Xcode 26
+        run: sudo xcode-select -s /Applications/Xcode-26.3.0.app/Contents/Developer
+
       # ── Version ──
       - name: Extract version from tag
         run: |
@@ -63,6 +67,7 @@ jobs:
             -scheme $SCHEME \
             -configuration Release \
             -archivePath $RUNNER_TEMP/$APP_NAME.xcarchive \
+            CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="Developer ID Application" \
             DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }}
 
