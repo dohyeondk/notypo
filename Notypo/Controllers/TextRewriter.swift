@@ -10,7 +10,6 @@ final class TextRewriter {
 
     func readSelection() async -> String? {
         let previousChangeCount = pasteboard.changeCount
-        let previousContents = pasteboard.string(forType: .string)
 
         simulateKeyPress(key: 0x08, flags: .maskCommand) // ⌘C
         try? await Task.sleep(nanoseconds: delay)
@@ -21,27 +20,15 @@ final class TextRewriter {
             return nil
         }
 
-        restorePasteboard(previousContents)
         return text
     }
 
     func replaceSelection(with text: String) async {
-        let previousContents = pasteboard.string(forType: .string)
-
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
 
         simulateKeyPress(key: 0x09, flags: .maskCommand) // ⌘V
         try? await Task.sleep(nanoseconds: delay)
-
-        restorePasteboard(previousContents)
-    }
-
-    private func restorePasteboard(_ previous: String?) {
-        pasteboard.clearContents()
-        if let previous {
-            pasteboard.setString(previous, forType: .string)
-        }
     }
 
     private func simulateKeyPress(key: CGKeyCode, flags: CGEventFlags) {
