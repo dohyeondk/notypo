@@ -30,6 +30,17 @@ A macOS menu bar app that proofreads your text using Apple Intelligence. Select 
 4. Ensure Apple Intelligence is enabled in System Settings
 5. Select text in any app and press `⌃Space`
 
+## Releasing
+
+Push a version tag to trigger the release pipeline:
+
+```bash
+git tag v0.3.0
+git push origin v0.3.0
+```
+
+GitHub Actions will build, sign, notarize, package a DMG, and create a GitHub Release automatically.
+
 ## License
 
 MIT
