@@ -7,31 +7,38 @@ import SwiftUI
 @Observable
 final class AppState {
 
-    var needsOnboarding: Bool {
-        !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
+    private static let hasCompletedOnboardingKey = "hasCompletedOnboarding"
+
+    var hasCompletedOnboarding: Bool {
+        get { UserDefaults.standard.bool(forKey: Self.hasCompletedOnboardingKey) }
+        set { UserDefaults.standard.set(newValue, forKey: Self.hasCompletedOnboardingKey) }
     }
 
-    private var panel: FloatingPanel?
+    private var proofreadPanel: FloatingPanel?
+    private var onboardingPanel: FloatingPanel?
 
     private var currentSession: ProofreadSession? {
         didSet {
-            panel?.hide()
+            proofreadPanel?.hide()
             if let currentSession {
                 let newPanel = FloatingPanel(ProofreadView(session: currentSession))
                 newPanel.show()
-                panel = newPanel
+                proofreadPanel = newPanel
             } else {
-                panel = nil
+                proofreadPanel = nil
             }
         }
     }
-    
+
     var isRunning: Bool {
         currentSession?.isProcessing == true
     }
 
     init() {
         start()
+        if !hasCompletedOnboarding {
+            showOnboarding()
+        }
     }
 
     private func start() {
@@ -42,6 +49,23 @@ final class AppState {
             guard let self else { return }
             Task { @MainActor in await self.handleHotkey() }
         }
+    }
+
+    func showOnboarding() {
+        onboardingPanel?.hide()
+        let view = OnboardingView {
+            self.hasCompletedOnboarding = true
+            self.onboardingPanel?.hide()
+            self.onboardingPanel = nil
+            NSApp.hide()
+        }
+        .environment(AccessibilityManager.shared)
+        .environment(ProofreadService.shared)
+
+        let newPanel = FloatingPanel(view)
+        newPanel.show()
+        NSApp.show()
+        onboardingPanel = newPanel
     }
 
     func handleHotkey() async {

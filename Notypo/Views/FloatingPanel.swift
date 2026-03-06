@@ -25,7 +25,7 @@ class FloatingPanel: NSPanel {
             backing: .buffered,
             defer: false
         )
-        level = .floating
+        level = .normal
         isOpaque = false
         backgroundColor = .clear
 

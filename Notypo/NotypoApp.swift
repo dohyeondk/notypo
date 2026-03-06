@@ -18,7 +18,7 @@ struct NotypoApp: App {
                 .environment(AccessibilityManager.shared)
                 .environment(ProofreadService.shared)
         }
-        .defaultLaunchBehavior(appState.needsOnboarding ? .presented : .suppressed)
+        .defaultLaunchBehavior(.suppressed)
         .windowResizability(.contentSize)
         .windowStyle(.titleBar)
     }

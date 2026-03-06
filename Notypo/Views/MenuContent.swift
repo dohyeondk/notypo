@@ -13,6 +13,10 @@ struct MenuContent: View {
 
         Divider()
 
+        Button("Setup Guide…") {
+            appState.showOnboarding()
+        }
+
         Button("Settings…") {
             openWindow(id: WindowID.settings.rawValue)
         }
