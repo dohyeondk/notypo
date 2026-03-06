@@ -66,9 +66,6 @@ struct SettingsView: View {
         .onAppear {
             NSApp.show()
         }
-        .onDisappear {
-            NSApp.hide()
-        }
     }
 }
 
