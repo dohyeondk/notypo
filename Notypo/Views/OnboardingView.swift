@@ -69,7 +69,7 @@ struct OnboardingView: View {
                 .buttonStyle(.glassProminent)
             } else {
                 Button("Continue") {
-                    withAnimation { vm.advance() }
+                    vm.advance()
                 }
                 .buttonStyle(.glassProminent)
                 .disabled(!vm.canAdvance)
