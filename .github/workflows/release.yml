@@ -49,6 +49,9 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
+          # Debug: verify certificate was imported
+          security find-identity -v -p codesigning $KEYCHAIN_PATH
+
       # ── Build ──
       - name: Resolve packages
         run: |
