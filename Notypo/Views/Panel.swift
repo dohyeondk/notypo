@@ -18,14 +18,14 @@ class Panel: NSPanel {
     /// Creates a floating panel with the given SwiftUI view as its content.
     ///
     /// - Parameter content: The view to display inside the panel.
-    init<Content: View>(_ content: Content) {
+    init<Content: View>(_ content: Content, level: NSWindow.Level = .normal) {
         super.init(
             contentRect: .zero,
             styleMask: [.nonactivatingPanel],
             backing: .buffered,
             defer: false
         )
-        level = .normal
+        self.level = level
         isOpaque = false
         backgroundColor = .clear
 

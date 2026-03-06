@@ -18,7 +18,7 @@ final class AppState {
         didSet {
             proofreadPanel?.hide()
             if let currentSession {
-                let newPanel = Panel(ProofreadView(session: currentSession))
+                let newPanel = Panel(ProofreadView(session: currentSession), level: .floating)
                 newPanel.show()
                 proofreadPanel = newPanel
             } else {
