@@ -16,6 +16,7 @@ struct NotypoApp: App {
         Window("Settings", id: WindowID.settings.rawValue) {
             SettingsView()
                 .environment(AccessibilityManager.shared)
+                .environment(LaunchManager.shared)
                 .environment(ProofreadService.shared)
         }
         .defaultLaunchBehavior(.suppressed)

@@ -3,9 +3,10 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(AccessibilityManager.self) private var accessibilityManager
+    @Environment(LaunchManager.self) private var launchManager
     @Environment(ProofreadService.self) private var proofreadService
-    
     var body: some View {
+        @Bindable var launchManager = launchManager
         @Bindable var proofreadService = proofreadService
 
         Form {
@@ -54,6 +55,7 @@ struct SettingsView: View {
             }
 
             Section("General") {
+                Toggle("Launch at Login", isOn: $launchManager.isEnabled)
                 LabeledContent("Version") {
                     Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—")
                 }
@@ -73,5 +75,6 @@ struct SettingsView: View {
 #Preview {
     SettingsView()
         .environment(AccessibilityManager.shared)
+        .environment(LaunchManager.shared)
         .environment(ProofreadService.shared)
 }
