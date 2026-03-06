@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1499CDEA0091A57E4228FABD /* NotypoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9BAA0FC65983E0F6BD0C3A /* NotypoApp.swift */; };
-		CAF254633257D0064171C3F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFEA6A0F09A7CEB0B0623393 /* Assets.xcassets */; };
 		CDC286222F5400A100C897FF /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = CDC286212F5400A100C897FF /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
@@ -23,18 +21,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AFEA6A0F09A7CEB0B0623393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4075095755E7ED7ECC2EA67 /* Notypo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notypo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDC287012F54229500C897FF /* NotypoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotypoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD9BAA0FC65983E0F6BD0C3A /* NotypoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotypoApp.swift; sourceTree = "<group>"; };
-		E4FD7AE529B700241B565260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CD1BF87A2F5A71BF00B9E7B3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F558462C508C6390BD1CE211 /* Notypo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		CDC286192F53F87300C897FF /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
-		CDC2861B2F53F8CC00C897FF /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
-		CDC2861E2F53F9DE00C897FF /* Model */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Model; sourceTree = "<group>"; };
-		CDC286EE2F54219000C897FF /* Controllers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Controllers; sourceTree = "<group>"; };
+		CD1BF8672F5A71BF00B9E7B3 /* Notypo */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CD1BF87A2F5A71BF00B9E7B3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Notypo; sourceTree = "<group>"; };
 		CDC287022F54229500C897FF /* NotypoTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NotypoTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -66,24 +68,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A17A6BE8D17B1F6D94750CAB /* Notypo */ = {
-			isa = PBXGroup;
-			children = (
-				CDC286EE2F54219000C897FF /* Controllers */,
-				CDC2861E2F53F9DE00C897FF /* Model */,
-				CDC2861B2F53F8CC00C897FF /* Views */,
-				CDC286192F53F87300C897FF /* Extensions */,
-				AFEA6A0F09A7CEB0B0623393 /* Assets.xcassets */,
-				E4FD7AE529B700241B565260 /* Info.plist */,
-				DD9BAA0FC65983E0F6BD0C3A /* NotypoApp.swift */,
-			);
-			path = Notypo;
-			sourceTree = "<group>";
-		};
 		B1EFD8BA77047F363DAE63AD = {
 			isa = PBXGroup;
 			children = (
-				A17A6BE8D17B1F6D94750CAB /* Notypo */,
+				CD1BF8672F5A71BF00B9E7B3 /* Notypo */,
 				CDC287022F54229500C897FF /* NotypoTests */,
 				653499A348C620D4FE9C90D2 /* Products */,
 			);
@@ -128,10 +116,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				CDC286192F53F87300C897FF /* Extensions */,
-				CDC2861B2F53F8CC00C897FF /* Views */,
-				CDC2861E2F53F9DE00C897FF /* Model */,
-				CDC286EE2F54219000C897FF /* Controllers */,
+				CD1BF8672F5A71BF00B9E7B3 /* Notypo */,
 			);
 			name = Notypo;
 			packageProductDependencies = (
@@ -184,7 +169,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAF254633257D0064171C3F8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +186,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1499CDEA0091A57E4228FABD /* NotypoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +211,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -315,6 +299,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
