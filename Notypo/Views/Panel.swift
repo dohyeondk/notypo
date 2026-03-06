@@ -8,10 +8,10 @@ import SwiftUI
 /// sizes itself to fit the provided view.
 ///
 /// ```swift
-/// let panel = FloatingPanel(MyView())
+/// let panel = Panel(MyView())
 /// panel.show()
 /// ```
-class FloatingPanel: NSPanel {
+class Panel: NSPanel {
 
     override var canBecomeKey: Bool { true }
 

@@ -11,14 +11,14 @@ final class AppState {
         !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
     }
 
-    private var proofreadPanel: FloatingPanel?
-    private var onboardingPanel: FloatingPanel?
+    private var proofreadPanel: Panel?
+    private var onboardingPanel: Panel?
 
     private var currentSession: ProofreadSession? {
         didSet {
             proofreadPanel?.hide()
             if let currentSession {
-                let newPanel = FloatingPanel(ProofreadView(session: currentSession))
+                let newPanel = Panel(ProofreadView(session: currentSession))
                 newPanel.show()
                 proofreadPanel = newPanel
             } else {
@@ -58,7 +58,7 @@ final class AppState {
         .environment(AccessibilityManager.shared)
         .environment(ProofreadService.shared)
 
-        let newPanel = FloatingPanel(view)
+        let newPanel = Panel(view)
         newPanel.show()
         NSApp.show()
         onboardingPanel = newPanel
