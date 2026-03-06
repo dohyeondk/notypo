@@ -10,14 +10,8 @@ struct MenuContent: View {
             Task { await appState.handleHotkey() }
         }
         .globalKeyboardShortcut(.proofread)
-        .disabled(appState.isOnboarding)
 
         Divider()
-
-        Button("Setup Guide…") {
-            appState.showOnboarding()
-        }
-        .disabled(appState.isOnboarding)
 
         Button("Settings…") {
             openWindow(id: WindowID.settings.rawValue)

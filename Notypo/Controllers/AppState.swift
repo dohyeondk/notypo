@@ -13,7 +13,6 @@ final class AppState {
 
     private var proofreadPanel: FloatingPanel?
     private var onboardingPanel: FloatingPanel?
-    var isOnboarding: Bool { onboardingPanel != nil }
 
     private var currentSession: ProofreadSession? {
         didSet {
@@ -49,7 +48,7 @@ final class AppState {
         }
     }
 
-    func showOnboarding() {
+    private func showOnboarding() {
         onboardingPanel?.hide()
         let view = OnboardingView {
             self.onboardingPanel?.hide()
