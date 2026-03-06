@@ -46,11 +46,15 @@ class ProofreadSession {
         let text = originalText
         let toneGuide = ProofreadService.shared.toneGuide
 
+        let leading = text.prefix(while: \.isWhitespace)
+        let trailing = String(text.reversed().prefix(while: \.isWhitespace).reversed())
+        let trimmed = String(text.dropFirst(leading.count).dropLast(trailing.count))
+
         do {
             let corrected = try await Task.detached {
-                try await Self.proofread(text, toneGuide: toneGuide)
+                try await Self.proofread(trimmed, toneGuide: toneGuide)
             }.value
-            phase = .succeeded(corrected: corrected)
+            phase = .succeeded(corrected: leading + corrected + trailing)
         } catch {
             phase = .failed
         }
