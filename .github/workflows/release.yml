@@ -19,7 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # ── Version ──
       - name: Extract version from tag
         run: |
           echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
@@ -30,34 +29,10 @@ jobs:
           /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" $APP_NAME/Info.plist
           /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" $APP_NAME/Info.plist
 
-      # ── Certificate ──
-      - name: Install signing certificate
-        env:
-          P12_BASE64: ${{ secrets.DEVELOPER_ID_CERTIFICATE_P12 }}
-          P12_PASSWORD: ${{ secrets.DEVELOPER_ID_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          CERT_PATH=$RUNNER_TEMP/certificate.p12
-          KEYCHAIN_PATH=$RUNNER_TEMP/signing.keychain-db
-
-          echo -n "$P12_BASE64" | base64 --decode -o $CERT_PATH
-
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security import $CERT_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-
-          # Debug: verify certificate was imported
-          security find-identity -v -p codesigning $KEYCHAIN_PATH
-
-      # ── Build ──
-      - name: Resolve packages
-        run: |
-          xcodebuild -resolvePackageDependencies \
-            -project $PROJECT \
-            -scheme $SCHEME
+      - uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.DEVELOPER_ID_CERTIFICATE_P12 }}
+          p12-password: ${{ secrets.DEVELOPER_ID_CERTIFICATE_PASSWORD }}
 
       - name: Archive
         run: |
@@ -89,26 +64,13 @@ jobs:
             -exportPath $RUNNER_TEMP/export \
             -exportOptionsPlist $RUNNER_TEMP/ExportOptions.plist
 
-      # ── Notarize ──
-      - name: Notarize
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: |
-          ditto -c -k --keepParent \
-            "$RUNNER_TEMP/export/$APP_NAME.app" \
-            "$RUNNER_TEMP/$APP_NAME.zip"
+      - uses: lando/notarize-action@v2
+        with:
+          product-path: ${{ runner.temp }}/export/${{ env.APP_NAME }}.app
+          appstore-connect-username: ${{ secrets.APPLE_ID }}
+          appstore-connect-password: ${{ secrets.APPLE_ID_PASSWORD }}
+          appstore-connect-team-id: ${{ secrets.APPLE_TEAM_ID }}
 
-          xcrun notarytool submit "$RUNNER_TEMP/$APP_NAME.zip" \
-            --apple-id "$APPLE_ID" \
-            --password "$APPLE_ID_PASSWORD" \
-            --team-id "$APPLE_TEAM_ID" \
-            --wait
-
-          xcrun stapler staple "$RUNNER_TEMP/export/$APP_NAME.app"
-
-      # ── DMG ──
       - name: Create DMG
         run: |
           brew install create-dmg
@@ -124,18 +86,14 @@ jobs:
             "$RUNNER_TEMP/$APP_NAME-$VERSION.dmg" \
             "$RUNNER_TEMP/export/$APP_NAME.app" \
           || true
-          # create-dmg exits 1 if no code signing identity for DMG, but DMG is still created
 
-          # Notarize the DMG
-          xcrun notarytool submit "$RUNNER_TEMP/$APP_NAME-$VERSION.dmg" \
-            --apple-id "${{ secrets.APPLE_ID }}" \
-            --password "${{ secrets.APPLE_ID_PASSWORD }}" \
-            --team-id "${{ secrets.APPLE_TEAM_ID }}" \
-            --wait
+      - uses: lando/notarize-action@v2
+        with:
+          product-path: ${{ runner.temp }}/${{ env.APP_NAME }}-${{ env.VERSION }}.dmg
+          appstore-connect-username: ${{ secrets.APPLE_ID }}
+          appstore-connect-password: ${{ secrets.APPLE_ID_PASSWORD }}
+          appstore-connect-team-id: ${{ secrets.APPLE_TEAM_ID }}
 
-          xcrun stapler staple "$RUNNER_TEMP/$APP_NAME-$VERSION.dmg"
-
-      # ── Release ──
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -144,8 +102,3 @@ jobs:
             "$RUNNER_TEMP/$APP_NAME-$VERSION.dmg" \
             --title "v$VERSION" \
             --generate-notes
-
-      # ── Cleanup ──
-      - name: Cleanup keychain
-        if: always()
-        run: security delete-keychain $RUNNER_TEMP/signing.keychain-db 2>/dev/null || true
