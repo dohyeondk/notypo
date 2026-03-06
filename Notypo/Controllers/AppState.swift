@@ -52,7 +52,6 @@ final class AppState {
     func showOnboarding() {
         onboardingPanel?.hide()
         let view = OnboardingView {
-            self.hasCompletedOnboarding = true
             self.onboardingPanel?.hide()
             self.onboardingPanel = nil
             NSApp.hide()
