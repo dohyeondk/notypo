@@ -7,28 +7,8 @@ struct OnboardingView: View {
     @Environment(AccessibilityManager.self) private var accessibilityManager
     @Environment(ProofreadService.self) private var proofreadService
 
-    @State private var currentStep = 0
+    @State private var vm = OnboardingViewModel()
     var onComplete: () -> Void
-
-    private var steps: [OnboardingStep] {
-        var result: [OnboardingStep] = [.welcome]
-        if !accessibilityManager.isGranted { result.append(.accessibility) }
-        if proofreadService.availability != .available { result.append(.appleIntelligence) }
-        result.append(.shortcut)
-        result.append(.ready)
-        return result
-    }
-
-    private var canAdvance: Bool {
-        switch steps[currentStep] {
-        case .welcome, .shortcut, .ready:
-            true
-        case .accessibility:
-            accessibilityManager.isGranted
-        case .appleIntelligence:
-            proofreadService.availability == .available
-        }
-    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -48,20 +28,20 @@ struct OnboardingView: View {
         )
         .frame(width: 480, height: 380)
         .onChange(of: accessibilityManager.isGranted) {
-            if accessibilityManager.isGranted, steps[currentStep] == .accessibility {
-                advanceAfterDelay()
+            if accessibilityManager.isGranted, vm.step == .accessibility {
+                vm.advanceAfterDelay()
             }
         }
         .onChange(of: proofreadService.availability) {
-            if proofreadService.availability == .available, steps[currentStep] == .appleIntelligence {
-                advanceAfterDelay()
+            if proofreadService.availability == .available, vm.step == .appleIntelligence {
+                vm.advanceAfterDelay()
             }
         }
     }
 
     private var stepContent: some View {
         Group {
-            switch steps[currentStep] {
+            switch vm.step {
             case .welcome:
                 welcomeContent
             case .accessibility:
@@ -82,35 +62,26 @@ struct OnboardingView: View {
 
             Spacer()
 
-            if steps[currentStep] == .ready {
+            if vm.isLastStep {
                 Button("Get Started") {
                     onComplete()
                 }
                 .buttonStyle(.glassProminent)
             } else {
                 Button("Continue") {
-                    withAnimation {
-                        currentStep = min(currentStep + 1, steps.count - 1)
-                    }
+                    withAnimation { vm.advance() }
                 }
                 .buttonStyle(.glassProminent)
-                .disabled(!canAdvance)
+                .disabled(!vm.canAdvance)
             }
-        }
-    }
-
-    private func advanceAfterDelay() {
-        Task {
-            try? await Task.sleep(for: .seconds(0.5))
-            withAnimation { currentStep = min(currentStep + 1, steps.count - 1) }
         }
     }
 
     private var stepIndicator: some View {
         HStack(spacing: 6) {
-            ForEach(steps.indices, id: \.self) { index in
+            ForEach(vm.steps.indices, id: \.self) { index in
                 Circle()
-                    .fill(index == currentStep ? Color.primary : Color.secondary.opacity(0.3))
+                    .fill(index == vm.currentStep ? Color.primary : Color.secondary.opacity(0.3))
                     .frame(width: 6, height: 6)
             }
         }
@@ -202,7 +173,7 @@ struct OnboardingView: View {
                     .frame(maxWidth: 360)
 
                 ProgressView()
-                    .controlSize(.large)
+                    .controlSize(.small)
             case .unavailable(.deviceNotEligible):
                 Text("This device does not support Apple Intelligence. Notypo requires a compatible Mac.")
                     .font(.body)
@@ -257,12 +228,4 @@ struct OnboardingView: View {
                 .frame(maxWidth: 360)
         }
     }
-}
-
-private enum OnboardingStep: Equatable {
-    case welcome
-    case accessibility
-    case appleIntelligence
-    case shortcut
-    case ready
 }
