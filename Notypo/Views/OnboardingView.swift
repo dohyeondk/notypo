@@ -7,7 +7,7 @@ struct OnboardingView: View {
     @Environment(AccessibilityManager.self) private var accessibilityManager
     @Environment(ProofreadService.self) private var proofreadService
 
-    @State private var vm = OnboardingViewModel()
+    @State private var viewModel = OnboardingViewModel()
     var onComplete: () -> Void
 
     var body: some View {
@@ -28,20 +28,20 @@ struct OnboardingView: View {
         )
         .frame(width: 480, height: 380)
         .onChange(of: accessibilityManager.isGranted) {
-            if accessibilityManager.isGranted, vm.step == .accessibility {
-                vm.advanceAfterDelay()
+            if accessibilityManager.isGranted, viewModel.step == .accessibility {
+                viewModel.advanceAfterDelay()
             }
         }
         .onChange(of: proofreadService.availability) {
-            if proofreadService.availability == .available, vm.step == .appleIntelligence {
-                vm.advanceAfterDelay()
+            if proofreadService.availability == .available, viewModel.step == .appleIntelligence {
+                viewModel.advanceAfterDelay()
             }
         }
     }
 
     private var stepContent: some View {
         Group {
-            switch vm.step {
+            switch viewModel.step {
             case .welcome:
                 welcomeContent
             case .accessibility:
@@ -62,26 +62,26 @@ struct OnboardingView: View {
 
             Spacer()
 
-            if vm.isLastStep {
+            if viewModel.isLastStep {
                 Button("Get Started") {
                     onComplete()
                 }
                 .buttonStyle(.glassProminent)
             } else {
                 Button("Continue") {
-                    vm.advance()
+                    viewModel.advance()
                 }
                 .buttonStyle(.glassProminent)
-                .disabled(!vm.canAdvance)
+                .disabled(!viewModel.canAdvance)
             }
         }
     }
 
     private var stepIndicator: some View {
         HStack(spacing: 6) {
-            ForEach(vm.steps.indices, id: \.self) { index in
+            ForEach(viewModel.steps.indices, id: \.self) { index in
                 Circle()
-                    .fill(index == vm.currentStep ? Color.primary : Color.secondary.opacity(0.3))
+                    .fill(index == viewModel.currentStep ? Color.primary : Color.secondary.opacity(0.3))
                     .frame(width: 6, height: 6)
             }
         }
@@ -221,7 +221,10 @@ struct OnboardingView: View {
                 .font(.title)
                 .fontWeight(.bold)
 
-            Text("Select some text and press your shortcut to try it out. Notypo lives in your menu bar. Look for the icon up top.")
+            Text(
+                "Select some text and press your shortcut to try it out. " +
+                "Notypo lives in your menu bar. Look for the icon up top."
+            )
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

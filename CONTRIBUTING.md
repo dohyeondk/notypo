@@ -12,7 +12,7 @@ You don't need signing certificates to develop locally. In the Notypo target's *
 
 ## Code Style
 
-Follow the [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/).
+Follow the [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/). The project uses [SwiftLint](https://github.com/realm/SwiftLint) — make sure there are no warnings before submitting a PR.
 
 ## Submitting Changes
 

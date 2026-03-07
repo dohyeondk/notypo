@@ -122,6 +122,9 @@ struct ProofreadView: View {
 }
 
 #Preview {
-    let session = ProofreadSession(originalText: "Id nostrud voluptate voluptate. Voluptate aliqua eiusmod dolor minim ut. Velit tempor incididunt ea esse incididunt incididunt cillum id commodo duis et.")
+    let session = ProofreadSession(
+        originalText: "Id nostrud voluptate voluptate. Voluptate aliqua eiusmod dolor minim ut. " +
+            "Velit tempor incididunt ea esse incididunt incididunt cillum id commodo duis et."
+    )
     ProofreadView(session: session)
 }

@@ -14,11 +14,11 @@ class ProofreadSession {
     }
 
     let originalText: String
-    
+
     var phase: Phase = .ready
 
     var isProcessing: Bool { phase == .ready || phase == .processing }
-    
+
     var isPerfect: Bool {
         if case .succeeded(let corrected) = phase { corrected == originalText } else { false }
     }
@@ -40,7 +40,7 @@ class ProofreadSession {
         guard phase != .processing else {
             return
         }
-        
+
         phase = .processing
 
         let text = originalText
