@@ -22,5 +22,6 @@ jobs:
             -project $PROJECT \
             -scheme $SCHEME \
             -destination 'platform=macOS' \
+            -skipPackagePluginValidation \
             CODE_SIGN_IDENTITY=- \
             CODE_SIGNING_ALLOWED=NO
