@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  SCHEME: Notypo
+  PROJECT: Notypo.xcodeproj
+
+jobs:
+  test:
+    runs-on: macos-26
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          xcodebuild test \
+            -project $PROJECT \
+            -scheme $SCHEME \
+            -destination 'platform=macOS' \
+            CODE_SIGN_IDENTITY=- \
+            CODE_SIGNING_ALLOWED=NO
