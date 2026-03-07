@@ -21,7 +21,7 @@ struct ProofreadSessionTests {
                 exactMatches += 1
             }
         }
-        
+
         #expect(
             exactMatches >= 90,
             "Expected at least 90 exact matches out of \(attempts), got \(exactMatches)."

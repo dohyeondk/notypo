@@ -114,6 +114,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CD9422642F5C700600ED8A6D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CD1BF8672F5A71BF00B9E7B3 /* Notypo */,
@@ -154,6 +155,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				CDC286202F5400A100C897FF /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				CD9422622F5C6FA300ED8A6D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -199,6 +201,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		CD9422642F5C700600ED8A6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = CD9422632F5C700600ED8A6D /* SwiftLintBuildToolPlugin */;
+		};
 		CDC287062F54229500C897FF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F558462C508C6390BD1CE211 /* Notypo */;
@@ -467,6 +473,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CD9422622F5C6FA300ED8A6D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.63.2;
+			};
+		};
 		CDC286202F5400A100C897FF /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -478,6 +492,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CD9422632F5C700600ED8A6D /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD9422622F5C6FA300ED8A6D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		CDC286212F5400A100C897FF /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CDC286202F5400A100C897FF /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;

@@ -49,7 +49,7 @@ private struct GeneralTab: View {
                     .disabled(accessibilityManager.isGranted)
                 }
             }
-            
+
             Section {
                 KeyboardShortcuts.Recorder("Hotkey", name: .hotkey)
             }
@@ -88,7 +88,7 @@ private struct ProofreadingTab: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            
+
             TextField(text: $proofreadService.toneGuide, axis: .vertical) {
                 Text("Tone Guide")
             }

@@ -10,34 +10,34 @@ enum DiffSegment: Equatable {
         let oldWords = original.split(separator: " ", omittingEmptySubsequences: false).map(String.init)
         let newWords = corrected.split(separator: " ", omittingEmptySubsequences: false).map(String.init)
 
-        let m = oldWords.count
-        let n = newWords.count
+        let oldCount = oldWords.count
+        let newCount = newWords.count
 
         // LCS table
-        var dp = [[Int]](repeating: [Int](repeating: 0, count: n + 1), count: m + 1)
-        for i in 1...max(m, 1) where i <= m {
-            for j in 1...max(n, 1) where j <= n {
-                if oldWords[i - 1] == newWords[j - 1] {
-                    dp[i][j] = dp[i - 1][j - 1] + 1
+        var lcs = [[Int]](repeating: [Int](repeating: 0, count: newCount + 1), count: oldCount + 1)
+        for row in 1...max(oldCount, 1) where row <= oldCount {
+            for col in 1...max(newCount, 1) where col <= newCount {
+                if oldWords[row - 1] == newWords[col - 1] {
+                    lcs[row][col] = lcs[row - 1][col - 1] + 1
                 } else {
-                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+                    lcs[row][col] = max(lcs[row - 1][col], lcs[row][col - 1])
                 }
             }
         }
 
         // Backtrack
         var segments: [DiffSegment] = []
-        var i = m, j = n
-        while i > 0 || j > 0 {
-            if i > 0 && j > 0 && oldWords[i - 1] == newWords[j - 1] {
-                segments.append(.unchanged(oldWords[i - 1]))
-                i -= 1; j -= 1
-            } else if j > 0 && (i == 0 || dp[i][j - 1] >= dp[i - 1][j]) {
-                segments.append(.added(newWords[j - 1]))
-                j -= 1
+        var row = oldCount, col = newCount
+        while row > 0 || col > 0 {
+            if row > 0 && col > 0 && oldWords[row - 1] == newWords[col - 1] {
+                segments.append(.unchanged(oldWords[row - 1]))
+                row -= 1; col -= 1
+            } else if col > 0 && (row == 0 || lcs[row][col - 1] >= lcs[row - 1][col]) {
+                segments.append(.added(newWords[col - 1]))
+                col -= 1
             } else {
-                segments.append(.deleted(oldWords[i - 1]))
-                i -= 1
+                segments.append(.deleted(oldWords[row - 1]))
+                row -= 1
             }
         }
 

@@ -55,7 +55,7 @@ struct DiffSegmentTests {
             .unchanged("a"),
             .deleted("gret"),
             .added("great"),
-            .unchanged("idea"),
+            .unchanged("idea")
         ])
     }
 }
