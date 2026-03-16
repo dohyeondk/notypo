@@ -14,9 +14,10 @@ struct ProofreadSessionTests {
         let attempts = 100
         var exactMatches = 0
         let session = await MainActor.run { ProofreadSession(originalText: "") }
+        let provider = AppleIntelligenceProvider()
 
         for _ in 0..<attempts {
-            if let result = try? await session.proofread(text: "Proofread", toneGuide: ""),
+            if let result = try? await session.proofread(text: "Proofread", toneGuide: "", provider: provider),
                result == "Proofread" {
                 exactMatches += 1
             }
