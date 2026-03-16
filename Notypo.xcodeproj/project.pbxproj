@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD0000012F60000000000001 /* AIProxy in Frameworks */ = {isa = PBXBuildFile; productRef = CD0000002F60000000000001 /* AIProxy */; };
+		CD0000032F70000000000001 /* MLXLLM in Frameworks */ = {isa = PBXBuildFile; productRef = CD0000042F70000000000001 /* MLXLLM */; };
 		CDC286222F5400A100C897FF /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = CDC286212F5400A100C897FF /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +47,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD0000012F60000000000001 /* AIProxy in Frameworks */,
+				CD0000032F70000000000001 /* MLXLLM in Frameworks */,
 				CDC286222F5400A100C897FF /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +125,8 @@
 			);
 			name = Notypo;
 			packageProductDependencies = (
+				CD0000002F60000000000001 /* AIProxy */,
+				CD0000042F70000000000001 /* MLXLLM */,
 				CDC286212F5400A100C897FF /* KeyboardShortcuts */,
 			);
 			productName = Notypo;
@@ -154,6 +160,8 @@
 			mainGroup = B1EFD8BA77047F363DAE63AD;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				CD0000022F60000000000002 /* XCRemoteSwiftPackageReference "AIProxySwift" */,
+				CD0000052F70000000000002 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */,
 				CDC286202F5400A100C897FF /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				CD9422622F5C6FA300ED8A6D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
@@ -473,6 +481,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CD0000022F60000000000002 /* XCRemoteSwiftPackageReference "AIProxySwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lzell/AIProxySwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.146.0;
+			};
+		};
+		CD0000052F70000000000002 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift-lm";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		CD9422622F5C6FA300ED8A6D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
@@ -492,6 +516,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CD0000002F60000000000001 /* AIProxy */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD0000022F60000000000002 /* XCRemoteSwiftPackageReference "AIProxySwift" */;
+			productName = AIProxy;
+		};
+		CD0000042F70000000000001 /* MLXLLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD0000052F70000000000002 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXLLM;
+		};
 		CD9422632F5C700600ED8A6D /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CD9422622F5C6FA300ED8A6D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;

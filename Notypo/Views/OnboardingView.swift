@@ -32,8 +32,8 @@ struct OnboardingView: View {
                 viewModel.advanceAfterDelay()
             }
         }
-        .onChange(of: proofreadService.availability) {
-            if proofreadService.availability == .available, viewModel.step == .appleIntelligence {
+        .onChange(of: proofreadService.appleIntelligenceAvailability) {
+            if proofreadService.appleIntelligenceAvailability == .available, viewModel.step == .languageModel {
                 viewModel.advanceAfterDelay()
             }
         }
@@ -46,8 +46,8 @@ struct OnboardingView: View {
                 welcomeContent
             case .accessibility:
                 accessibilityContent
-            case .appleIntelligence:
-                appleIntelligenceContent
+            case .languageModel:
+                languageModelContent
             case .shortcut:
                 shortcutContent
             case .ready:
@@ -97,7 +97,7 @@ struct OnboardingView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text("Zero-friction proofreading,\npowered by Apple Intelligence")
+            Text("Zero-friction proofreading,\npowered by on-device or cloud AI")
                 .font(.title3)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -133,7 +133,7 @@ struct OnboardingView: View {
         }
     }
 
-    private var appleIntelligenceContent: some View {
+    private var languageModelContent: some View {
         VStack(spacing: 16) {
             Image(systemName: "apple.intelligence")
                 .font(.system(size: 48))
@@ -145,11 +145,11 @@ struct OnboardingView: View {
                     )
                 )
 
-            Text("Apple Intelligence")
+            Text("Language Model")
                 .font(.title)
                 .fontWeight(.bold)
 
-            switch proofreadService.availability {
+            switch proofreadService.appleIntelligenceAvailability {
             case .available:
                 Label("Model Ready", systemImage: "checkmark.circle.fill")
                     .foregroundStyle(.green)
@@ -186,6 +186,29 @@ struct OnboardingView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: 360)
+            }
+
+            if proofreadService.appleIntelligenceAvailability != .available {
+                Divider()
+                    .padding(.vertical, 4)
+
+                Text("Or use another provider:")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+
+                HStack(spacing: 12) {
+                    Button("Use OpenAI") {
+                        proofreadService.selectedProvider = .openAI
+                        viewModel.advance()
+                    }
+                    .controlSize(.large)
+
+                    Button("Use Local MLX") {
+                        proofreadService.selectedProvider = .localMLX
+                        viewModel.advance()
+                    }
+                    .controlSize(.large)
+                }
             }
         }
     }

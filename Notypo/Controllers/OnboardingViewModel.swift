@@ -7,7 +7,7 @@ final class OnboardingViewModel {
     enum Step: Equatable {
         case welcome
         case accessibility
-        case appleIntelligence
+        case languageModel
         case shortcut
         case ready
     }
@@ -24,15 +24,16 @@ final class OnboardingViewModel {
             true
         case .accessibility:
             AccessibilityManager.shared.isGranted
-        case .appleIntelligence:
-            ProofreadService.shared.availability == .available
+        case .languageModel:
+            ProofreadService.shared.isAvailable
+                || ProofreadService.shared.selectedProvider == .localMLX
         }
     }
 
     init() {
         var result: [Step] = [.welcome]
         if !AccessibilityManager.shared.isGranted { result.append(.accessibility) }
-        if ProofreadService.shared.availability != .available { result.append(.appleIntelligence) }
+        if !ProofreadService.shared.isAvailable { result.append(.languageModel) }
         result.append(.shortcut)
         result.append(.ready)
         steps = result

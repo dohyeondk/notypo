@@ -1,4 +1,3 @@
-import FoundationModels
 import Observation
 import SwiftUI
 
@@ -45,20 +44,28 @@ class ProofreadSession {
 
         let text = originalText
         let toneGuide = ProofreadService.shared.toneGuide
+        let provider: any LLMProvider
+
+        do {
+            provider = try await ProofreadService.shared.ensureProvider()
+        } catch {
+            phase = .failed
+            return
+        }
 
         let leading = text.prefix(while: \.isWhitespace)
         let trailing = String(text.reversed().prefix(while: \.isWhitespace).reversed())
         let trimmed = String(text.dropFirst(leading.count).dropLast(trailing.count))
 
         do {
-            let corrected = try await proofread(text: trimmed, toneGuide: toneGuide)
+            let corrected = try await proofread(text: trimmed, toneGuide: toneGuide, provider: provider)
             phase = .succeeded(corrected: leading + corrected + trailing)
         } catch {
             phase = .failed
         }
     }
 
-    func proofread(text: String, toneGuide: String) async throws -> String {
+    func proofread(text: String, toneGuide: String, provider: any LLMProvider) async throws -> String {
         var systemPrompt = """
             You are a proofreading assistant. \
             Fix typos, spelling errors, and grammar mistakes in the user's text. \
@@ -76,9 +83,8 @@ class ProofreadSession {
             systemPrompt += "\nTone guide: \(toneGuide)"
         }
 
-        let session = LanguageModelSession { systemPrompt }
-        let response = try await session.respond(to: "\"\(text)\"")
-        return stripOuterDelimiterQuotes(from: response.content)
+        let result = try await provider.proofread(text: text, systemPrompt: systemPrompt)
+        return stripOuterDelimiterQuotes(from: result)
     }
 
     private func stripOuterDelimiterQuotes(from text: String) -> String {

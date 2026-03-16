@@ -8,7 +8,7 @@ import SwiftUI
 final class AppState {
 
     private var needsOnboarding: Bool {
-        !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
+        !AccessibilityManager.shared.isGranted || !ProofreadService.shared.isAvailable
     }
 
     private var proofreadPanel: Panel?
@@ -65,7 +65,7 @@ final class AppState {
     }
 
     func handleHotkey() async {
-        guard ProofreadService.shared.availability == .available else { return }
+        guard ProofreadService.shared.isAvailable else { return }
         guard let text = await TextRewriter.shared.readSelection() else { return }
 
         let session = ProofreadSession(originalText: text)
