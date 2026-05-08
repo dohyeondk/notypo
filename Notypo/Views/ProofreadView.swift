@@ -75,22 +75,22 @@ struct ProofreadView: View {
     private var toolbar: some View {
         HStack(spacing: 20) {
             discardButton
-                .opacity(session.isProcessing ? 0 : 1)
 
             retryButton
                 .opacity(session.isProcessing ? 0 : 1)
+                .disabled(session.isProcessing)
 
             Spacer()
 
-            copyButton
-                .disabled(session.phase == .failed)
-            applyButton
-                .disabled(session.phase == .failed)
+            if session.isProcessing {
+                processingLabel
+            } else {
+                copyButton
+                    .disabled(session.phase == .failed)
+                applyButton
+                    .disabled(session.phase == .failed)
+            }
         }
-        .overlay(alignment: .leading) {
-            if session.isProcessing { processingLabel }
-        }
-        .disabled(session.isProcessing)
         .buttonStyle(.plain)
     }
 
