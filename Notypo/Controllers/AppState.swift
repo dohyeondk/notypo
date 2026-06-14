@@ -1,4 +1,3 @@
-import AppKit
 import KeyboardShortcuts
 import Observation
 import SwiftUI
@@ -7,25 +6,11 @@ import SwiftUI
 @Observable
 final class AppState {
 
-    private var needsOnboarding: Bool {
+    var needsOnboarding: Bool {
         !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
     }
 
-    private var proofreadPanel: Panel?
-    private var onboardingPanel: Panel?
-
-    private var currentSession: ProofreadSession? {
-        didSet {
-            proofreadPanel?.hide()
-            if let currentSession {
-                let newPanel = Panel(ProofreadView(session: currentSession), level: .floating)
-                newPanel.show()
-                proofreadPanel = newPanel
-            } else {
-                proofreadPanel = nil
-            }
-        }
-    }
+    private(set) var currentSession: ProofreadSession?
 
     var isRunning: Bool {
         currentSession?.isProcessing == true
@@ -33,9 +18,6 @@ final class AppState {
 
     init() {
         start()
-        if needsOnboarding {
-            showOnboarding()
-        }
     }
 
     private func start() {
@@ -46,22 +28,6 @@ final class AppState {
             guard let self else { return }
             Task { @MainActor in await self.handleHotkey() }
         }
-    }
-
-    private func showOnboarding() {
-        onboardingPanel?.hide()
-        let view = OnboardingView {
-            self.onboardingPanel?.hide()
-            self.onboardingPanel = nil
-            NSApp.hide()
-        }
-        .environment(AccessibilityManager.shared)
-        .environment(ProofreadService.shared)
-
-        let newPanel = Panel(view)
-        newPanel.show()
-        NSApp.show()
-        onboardingPanel = newPanel
     }
 
     func handleHotkey() async {

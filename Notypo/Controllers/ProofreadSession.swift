@@ -4,7 +4,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-class ProofreadSession {
+class ProofreadSession: Identifiable {
 
     enum Phase: Equatable {
         case ready
@@ -13,6 +13,7 @@ class ProofreadSession {
         case failed
     }
 
+    let id = UUID()
     let originalText: String
 
     var phase: Phase = .ready
