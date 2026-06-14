@@ -6,17 +6,10 @@ import SwiftUI
 @Observable
 final class AppState {
 
-    /// Whether the user still needs to complete onboarding (missing
-    /// Accessibility permission or an unavailable proofreading model).
     var needsOnboarding: Bool {
         !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
     }
 
-    /// The active proofreading session, or `nil` when no panel should be shown.
-    ///
-    /// This is pure state: presentation is driven declaratively by the UI
-    /// observing this value, never as a side effect here. That avoids
-    /// re-entering SwiftUI's update cycle from an observed mutation.
     private(set) var currentSession: ProofreadSession?
 
     var isRunning: Bool {

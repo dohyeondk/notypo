@@ -19,8 +19,6 @@ struct NotypoApp: App {
                 .environment(appState)
         }
 
-        // Onboarding is a plain, content-sized SwiftUI window. It never opens
-        // automatically; the menu-bar label opens it at launch when needed.
         Window("Welcome to Notypo", id: WindowID.onboarding) {
             OnboardingWindowContent()
         }
@@ -39,10 +37,6 @@ struct NotypoApp: App {
     }
 }
 
-/// The menu-bar status item, plus the bridges that turn `AppState` into
-/// window/panel presentation. Living in the always-rendered status item, its
-/// `onChange` handlers fire as reactions *after* the update completes — a safe
-/// place to do imperative AppKit work, unlike an observed property's `didSet`.
 private struct MenuBarLabel: View {
 
     @Environment(AppState.self) private var appState
@@ -57,13 +51,12 @@ private struct MenuBarLabel: View {
                 NSApp.show()
                 openWindow(id: WindowID.onboarding)
             }
+            // React in onChange, not a didSet on the observed state, to avoid AppKit work mid-update.
             .onChange(of: appState.currentSession?.id) {
                 syncProofreadPanel()
             }
     }
 
-    /// Shows the floating, non-activating proofread panel for the current
-    /// session, or tears it down when there is none.
     private func syncProofreadPanel() {
         proofreadPanel?.hide()
         guard let session = appState.currentSession else {
@@ -76,7 +69,6 @@ private struct MenuBarLabel: View {
     }
 }
 
-/// Wraps `OnboardingView` so it can dismiss its own window scene on completion.
 private struct OnboardingWindowContent: View {
 
     @Environment(\.dismissWindow) private var dismissWindow
