@@ -1,4 +1,3 @@
-import AppKit
 import KeyboardShortcuts
 import Observation
 import SwiftUI
@@ -7,25 +6,18 @@ import SwiftUI
 @Observable
 final class AppState {
 
-    private var needsOnboarding: Bool {
+    /// Whether the user still needs to complete onboarding (missing
+    /// Accessibility permission or an unavailable proofreading model).
+    var needsOnboarding: Bool {
         !AccessibilityManager.shared.isGranted || ProofreadService.shared.availability != .available
     }
 
-    private var proofreadPanel: Panel?
-    private var onboardingPanel: Panel?
-
-    private var currentSession: ProofreadSession? {
-        didSet {
-            proofreadPanel?.hide()
-            if let currentSession {
-                let newPanel = Panel(ProofreadView(session: currentSession), level: .floating)
-                newPanel.show()
-                proofreadPanel = newPanel
-            } else {
-                proofreadPanel = nil
-            }
-        }
-    }
+    /// The active proofreading session, or `nil` when no panel should be shown.
+    ///
+    /// This is pure state: presentation is driven declaratively by the UI
+    /// observing this value, never as a side effect here. That avoids
+    /// re-entering SwiftUI's update cycle from an observed mutation.
+    private(set) var currentSession: ProofreadSession?
 
     var isRunning: Bool {
         currentSession?.isProcessing == true
@@ -33,9 +25,6 @@ final class AppState {
 
     init() {
         start()
-        if needsOnboarding {
-            showOnboarding()
-        }
     }
 
     private func start() {
@@ -46,22 +35,6 @@ final class AppState {
             guard let self else { return }
             Task { @MainActor in await self.handleHotkey() }
         }
-    }
-
-    private func showOnboarding() {
-        onboardingPanel?.hide()
-        let view = OnboardingView {
-            self.onboardingPanel?.hide()
-            self.onboardingPanel = nil
-            NSApp.hide()
-        }
-        .environment(AccessibilityManager.shared)
-        .environment(ProofreadService.shared)
-
-        let newPanel = Panel(view)
-        newPanel.show()
-        NSApp.show()
-        onboardingPanel = newPanel
     }
 
     func handleHotkey() async {
