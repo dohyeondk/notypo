@@ -4,7 +4,6 @@ import SwiftUI
 struct ProofreadView: View {
 
     @Bindable var session: ProofreadSession
-    @State private var showCopied = false
 
     private var tintColor: Color {
         if session.phase == .failed { return .red.opacity(0.3) }
@@ -12,83 +11,30 @@ struct ProofreadView: View {
         return .clear
     }
 
-    private var retryButton: some View {
-        Button {
-            Task { await session.run() }
-        } label: {
-            Label("Retry", systemImage: "arrow.clockwise")
-        }
-        .keyboardShortcut("r", modifiers: .command)
-    }
-
-    private var processingLabel: some View {
-        Label {
-            Text("Proofreading...")
-        } icon: {
-            ProgressView()
-                .progressViewStyle(.circular)
-                .controlSize(.small)
-        }
-    }
-
-    private var discardButton: some View {
-        Button {
-            session.onDiscard?()
-        } label: {
-            Label("Discard", systemImage: "escape")
-        }
-        .keyboardShortcut(.escape, modifiers: [])
-    }
-
-    private var copyButton: some View {
-        Button {
-            if case .succeeded(let corrected) = session.phase {
-                NSPasteboard.general.clearContents()
-                NSPasteboard.general.setString(corrected, forType: .string)
-                showCopied = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    showCopied = false
-                }
-            }
-        } label: {
-            Label(
-                "Copy",
-                systemImage: showCopied ? "checkmark" : "doc.on.doc"
-            )
-            .contentTransition(.symbolEffect(.replace))
-        }
-        .keyboardShortcut("c", modifiers: .command)
-    }
-
-    private var applyButton: some View {
-        Button {
-            if case .succeeded(let corrected) = session.phase {
-                session.onApply?(corrected)
-            }
-        } label: {
-            Label("Apply", systemImage: "return")
-        }
-        .keyboardShortcut(.return, modifiers: [])
-        .buttonStyle(.glassProminent)
-    }
-
     private var toolbar: some View {
         HStack(spacing: 20) {
-            discardButton
+            DiscardButton {
+                session.onDiscard?()
+            }
 
-            retryButton
-                .opacity(session.isProcessing ? 0 : 1)
-                .disabled(session.isProcessing)
+            Group {
+                RetryButton {
+                    Task { await session.run() }
+                }
 
-            Spacer()
+                Spacer()
 
+                CopyButton(string: session.corrected)
+
+                ApplyButton {
+                    session.onApply?(session.corrected)
+                }
+            }
+            .opacity(session.isProcessing ? 0 : 1)
+        }
+        .overlay(alignment: .trailing) {
             if session.isProcessing {
-                processingLabel
-            } else {
-                copyButton
-                    .disabled(session.phase == .failed)
-                applyButton
-                    .disabled(session.phase == .failed)
+                ProcessingLabel()
             }
         }
         .buttonStyle(.plain)
@@ -96,11 +42,7 @@ struct ProofreadView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(session.attributedText)
-                .font(.title2)
-                .lineLimit(20)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(12)
+            TextView(string: session.attributedString)
 
             toolbar
                 .padding(12)
@@ -121,10 +63,104 @@ struct ProofreadView: View {
     }
 }
 
+private struct TextView: View {
+    let string: AttributedString
+
+    var body: some View {
+        Text(string)
+            .font(.title2)
+            .lineLimit(20)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(12)
+    }
+}
+
+private struct DiscardButton: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Label("Discard", systemImage: "escape")
+        }
+        .keyboardShortcut(.escape, modifiers: [])
+    }
+}
+
+private struct RetryButton: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Label("Retry", systemImage: "arrow.clockwise")
+        }
+        .keyboardShortcut("r", modifiers: .command)
+    }
+}
+
+private struct CopyButton: View {
+    let string: String?
+
+    @State private var showCopied = false
+
+    var body: some View {
+        Button {
+            if let string {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(string, forType: .string)
+                showCopied = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    showCopied = false
+                }
+            }
+        } label: {
+            Label(
+                "Copy",
+                systemImage: showCopied ? "checkmark" : "doc.on.doc"
+            )
+            .contentTransition(.symbolEffect(.replace))
+        }
+        .keyboardShortcut("c", modifiers: .command)
+    }
+}
+
+private struct ApplyButton: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Label("Apply", systemImage: "return")
+        }
+        .keyboardShortcut(.return, modifiers: [])
+        .buttonStyle(.glassProminent)
+    }
+}
+
+private struct ProcessingLabel: View {
+    var body: some View {
+        Label {
+            Text("Proofreading...")
+        } icon: {
+            ProgressView()
+                .progressViewStyle(.circular)
+                .controlSize(.small)
+        }
+    }
+}
+
 #Preview {
     let session = ProofreadSession(
         originalText: "Id nostrud voluptate voluptate. Voluptate aliqua eiusmod dolor minim ut. " +
             "Velit tempor incididunt ea esse incididunt incididunt cillum id commodo duis et."
     )
     ProofreadView(session: session)
+}
+
+#Preview {
+    CopyButton(string: "Esse qui aute duis irure nostrud.")
 }
