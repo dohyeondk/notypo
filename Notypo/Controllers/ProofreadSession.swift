@@ -24,8 +24,11 @@ class ProofreadSession: Identifiable {
         if case .succeeded(let corrected) = phase { corrected == originalText } else { false }
     }
 
-    var attributedText: AttributedString {
-        let corrected = if case .succeeded(let corrected) = phase { corrected } else { originalText }
+    var corrected: String {
+        if case .succeeded(let corrected) = phase { corrected } else { originalText }
+    }
+
+    var attributedString: AttributedString {
         let segments = DiffSegment.wordDiff(original: originalText, corrected: corrected)
         return DiffSegment.attributedString(from: segments)
     }
