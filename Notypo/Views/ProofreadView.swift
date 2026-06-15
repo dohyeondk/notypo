@@ -160,3 +160,7 @@ private struct ProcessingLabel: View {
     )
     ProofreadView(session: session)
 }
+
+#Preview {
+    CopyButton(string: "Esse qui aute duis irure nostrud.")
+}
